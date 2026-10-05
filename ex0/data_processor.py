@@ -9,13 +9,10 @@ class DataProcessor(ABC):
         self._data: list[tuple[int, str]] = []
         self._rank: int = 0
 
+
     @abstractmethod
     def validate(self, data: Any) -> bool:
         pass
-
-
-    def output(self) -> tuple[int, str]:
-        ...
 
 
     @abstractmethod
@@ -24,7 +21,14 @@ class DataProcessor(ABC):
 
 
     def _store(self, value: str) -> None:
-        ...
+        self._data.append((self._rank, value))
+        self._rank += 1
+
+
+    def output(self) -> tuple[int, str]:
+        if not self._data:
+            raise IndexError("No data left on processor")
+        return self._data.pop(0)
 
 
 class NumericProcessor:
