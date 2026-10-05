@@ -14,7 +14,6 @@ class DataProcessor(ABC):
         pass
 
 
-
     def output(self) -> tuple[int, str]:
         ...
 
