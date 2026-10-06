@@ -6,6 +6,7 @@ from typing import Any
 
 class DataProcessor(ABC):
     name: str = "Data Processor"
+
     def __init__(self) -> None:
         self._data: list[tuple[int, str]] = []
         self._rank: int = 0
@@ -36,6 +37,7 @@ class DataProcessor(ABC):
 
 class NumericProcessor(DataProcessor):
     name: str = "Numeric Processor"
+
     def _is_number(self, value: Any) -> bool:
         return isinstance(value, (int, float)) and not isinstance(value, bool)
 
@@ -56,6 +58,7 @@ class NumericProcessor(DataProcessor):
 
 class TextProcessor(DataProcessor):
     name: str = "Text Processor"
+
     def _is_text(self, value: Any) -> bool:
         return isinstance(value, str)
 
@@ -76,6 +79,7 @@ class TextProcessor(DataProcessor):
 
 class LogProcessor(DataProcessor):
     name: str = "Log Processor"
+
     def _is_log(self, value: Any) -> bool:
         if not isinstance(value, dict):
             return False
@@ -140,10 +144,13 @@ def main() -> None:
 
     print("\nRegistering Numeric Processor")
     stream.register_processor(np)
-    batch: list[Any] = ['Hello world', [3.14, -1, 2.71], 
-        [{'log_level': 'WARNING', 'log_message': 'Telnet access!' 
-        'Use ssh instead'}, {'log_level': 'INFO', 'log_message': 
-        'User wil is connected'}], 42, ['Hi', 'five']]
+    batch: list[Any] = [
+        'Hello world', [3.14, -1, 2.71],
+        [{'log_level': 'WARNING',
+          'log_message': 'Telnet access! Use ssh instead'},
+         {'log_level': 'INFO', 'log_message': 'User wil is connected'}],
+        42, ['Hi', 'five']
+    ]
     print(f"\nSend first batch of data on stream: {batch}")
     stream.process_stream(batch)
     stream.print_processors_stats()
@@ -158,13 +165,11 @@ def main() -> None:
     print("\nConsume some elements from the data processors: Numeric 3, "
           "Text 2, Log 1")
     for _ in range(3):
-        
-    
-
-
-
-
-
+        np.output()
+    for _ in range(2):
+        tp.output()
+    lp.output()
+    stream.print_processors_stats()
 
 
 if __name__ == "__main__":
